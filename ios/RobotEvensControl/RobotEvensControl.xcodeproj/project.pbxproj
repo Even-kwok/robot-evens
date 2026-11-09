@@ -1,0 +1,435 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00000000000000000000020 /* RobotEvensControlApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000010 /* RobotEvensControlApp.swift */; };
+		A00000000000000000000021 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000011 /* ContentView.swift */; };
+		A00000000000000000000022 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000012 /* AppViewModel.swift */; };
+		A00000000000000000000023 /* CoreMotionPoseSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000013 /* CoreMotionPoseSource.swift */; };
+		A00000000000000000000025 /* RobotAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000015 /* RobotAction.swift */; };
+		A00000000000000000000026 /* MotionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* MotionMapper.swift */; };
+		A00000000000000000000027 /* ActionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000017 /* ActionRecorder.swift */; };
+		A00000000000000000000028 /* RobotClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* RobotClient.swift */; };
+		A00000000000000000000029 /* PlaybackScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000019 /* PlaybackScheduler.swift */; };
+		A00000000000000000000046 /* RobotConnectionDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000048 /* RobotConnectionDefaults.swift */; };
+		A00000000000000000000050 /* ManualPoseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000051 /* ManualPoseEditor.swift */; };
+		A00000000000000000000053 /* MotionStreamPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000052 /* MotionStreamPacket.swift */; };
+		A00000000000000000000055 /* MotionControlTuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000054 /* MotionControlTuning.swift */; };
+		A00000000000000000000057 /* MotionStreamUDPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000056 /* MotionStreamUDPClient.swift */; };
+		A00000000000000000000058 /* AudioBeatServoMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000059 /* AudioBeatServoMapper.swift */; };
+		A00000000000000000000060 /* AudioLevelMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000061 /* AudioLevelMonitor.swift */; };
+		A00000000000000000000062 /* CreatorStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000066 /* CreatorStudioView.swift */; };
+		A00000000000000000000063 /* EmotionSoundStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000067 /* EmotionSoundStudioView.swift */; };
+		A00000000000000000000064 /* ExpressionStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000068 /* ExpressionStudioView.swift */; };
+		A00000000000000000000065 /* CreatorModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000069 /* CreatorModels.swift */; };
+		A00000000000000000000071 /* EyeGlyphBitmaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000070 /* EyeGlyphBitmaps.swift */; };
+		A00000000000000000000072 /* ApprovedEyePairBitmaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000073 /* ApprovedEyePairBitmaps.swift */; };
+		D10000000000000000000011 /* DesktopRobotAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000001 /* DesktopRobotAppView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A00000000000000000000005 /* RobotEvensControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RobotEvensControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000010 /* RobotEvensControlApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotEvensControlApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000011 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A00000000000000000000012 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		A00000000000000000000013 /* CoreMotionPoseSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMotionPoseSource.swift; sourceTree = "<group>"; };
+		A00000000000000000000014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A00000000000000000000015 /* RobotAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotAction.swift; sourceTree = "<group>"; };
+		A00000000000000000000016 /* MotionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionMapper.swift; sourceTree = "<group>"; };
+		A00000000000000000000017 /* ActionRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRecorder.swift; sourceTree = "<group>"; };
+		A00000000000000000000018 /* RobotClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotClient.swift; sourceTree = "<group>"; };
+		A00000000000000000000019 /* PlaybackScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackScheduler.swift; sourceTree = "<group>"; };
+		A00000000000000000000048 /* RobotConnectionDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotConnectionDefaults.swift; sourceTree = "<group>"; };
+		A00000000000000000000049 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A00000000000000000000051 /* ManualPoseEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualPoseEditor.swift; sourceTree = "<group>"; };
+		A00000000000000000000052 /* MotionStreamPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionStreamPacket.swift; sourceTree = "<group>"; };
+		A00000000000000000000054 /* MotionControlTuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionControlTuning.swift; sourceTree = "<group>"; };
+		A00000000000000000000056 /* MotionStreamUDPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionStreamUDPClient.swift; sourceTree = "<group>"; };
+		A00000000000000000000059 /* AudioBeatServoMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBeatServoMapper.swift; sourceTree = "<group>"; };
+		A00000000000000000000061 /* AudioLevelMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLevelMonitor.swift; sourceTree = "<group>"; };
+		A00000000000000000000066 /* CreatorStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorStudioView.swift; sourceTree = "<group>"; };
+		A00000000000000000000067 /* EmotionSoundStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionSoundStudioView.swift; sourceTree = "<group>"; };
+		A00000000000000000000068 /* ExpressionStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionStudioView.swift; sourceTree = "<group>"; };
+		A00000000000000000000069 /* CreatorModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorModels.swift; sourceTree = "<group>"; };
+		A00000000000000000000070 /* EyeGlyphBitmaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeGlyphBitmaps.swift; sourceTree = "<group>"; };
+		A00000000000000000000073 /* ApprovedEyePairBitmaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedEyePairBitmaps.swift; sourceTree = "<group>"; };
+		D10000000000000000000001 /* DesktopRobotAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopRobotAppView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A00000000000000000000008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A00000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000004 /* RobotEvensControl */,
+				A00000000000000000000032 /* RobotEvensCore */,
+				A00000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A00000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000005 /* RobotEvensControl.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000004 /* RobotEvensControl */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000010 /* RobotEvensControlApp.swift */,
+				A00000000000000000000011 /* ContentView.swift */,
+				A00000000000000000000012 /* AppViewModel.swift */,
+				A00000000000000000000013 /* CoreMotionPoseSource.swift */,
+				A00000000000000000000056 /* MotionStreamUDPClient.swift */,
+				A00000000000000000000061 /* AudioLevelMonitor.swift */,
+				A00000000000000000000066 /* CreatorStudioView.swift */,
+				A00000000000000000000067 /* EmotionSoundStudioView.swift */,
+				A00000000000000000000068 /* ExpressionStudioView.swift */,
+				D10000000000000000000001 /* DesktopRobotAppView.swift */,
+				A00000000000000000000014 /* Info.plist */,
+				A00000000000000000000049 /* LaunchScreen.storyboard */,
+			);
+			path = RobotEvensControl;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000032 /* RobotEvensCore */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000015 /* RobotAction.swift */,
+				A00000000000000000000016 /* MotionMapper.swift */,
+				A00000000000000000000017 /* ActionRecorder.swift */,
+				A00000000000000000000018 /* RobotClient.swift */,
+				A00000000000000000000019 /* PlaybackScheduler.swift */,
+				A00000000000000000000048 /* RobotConnectionDefaults.swift */,
+				A00000000000000000000051 /* ManualPoseEditor.swift */,
+				A00000000000000000000052 /* MotionStreamPacket.swift */,
+				A00000000000000000000054 /* MotionControlTuning.swift */,
+				A00000000000000000000059 /* AudioBeatServoMapper.swift */,
+				A00000000000000000000069 /* CreatorModels.swift */,
+				A00000000000000000000070 /* EyeGlyphBitmaps.swift */,
+				A00000000000000000000073 /* ApprovedEyePairBitmaps.swift */,
+			);
+			name = RobotEvensCore;
+			path = ../RobotEvensCore/Sources/RobotEvensCore;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A00000000000000000000006 /* RobotEvensControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00000000000000000000045 /* Build configuration list for PBXNativeTarget "RobotEvensControl" */;
+			buildPhases = (
+				A00000000000000000000007 /* Sources */,
+				A00000000000000000000008 /* Frameworks */,
+				A00000000000000000000009 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RobotEvensControl;
+			packageProductDependencies = (
+			);
+			productName = RobotEvensControl;
+			productReference = A00000000000000000000005 /* RobotEvensControl.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A00000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2610;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					A00000000000000000000006 = {
+						CreatedOnToolsVersion = 26.1.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A00000000000000000000042 /* Build configuration list for PBXProject "RobotEvensControl" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A00000000000000000000002;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
+			productRefGroup = A00000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A00000000000000000000006 /* RobotEvensControl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A00000000000000000000009 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A00000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000020 /* RobotEvensControlApp.swift in Sources */,
+				A00000000000000000000021 /* ContentView.swift in Sources */,
+				A00000000000000000000022 /* AppViewModel.swift in Sources */,
+				A00000000000000000000023 /* CoreMotionPoseSource.swift in Sources */,
+				A00000000000000000000025 /* RobotAction.swift in Sources */,
+				A00000000000000000000026 /* MotionMapper.swift in Sources */,
+				A00000000000000000000027 /* ActionRecorder.swift in Sources */,
+				A00000000000000000000028 /* RobotClient.swift in Sources */,
+				A00000000000000000000029 /* PlaybackScheduler.swift in Sources */,
+				A00000000000000000000046 /* RobotConnectionDefaults.swift in Sources */,
+				A00000000000000000000050 /* ManualPoseEditor.swift in Sources */,
+				A00000000000000000000053 /* MotionStreamPacket.swift in Sources */,
+				A00000000000000000000055 /* MotionControlTuning.swift in Sources */,
+				A00000000000000000000057 /* MotionStreamUDPClient.swift in Sources */,
+				A00000000000000000000058 /* AudioBeatServoMapper.swift in Sources */,
+				A00000000000000000000060 /* AudioLevelMonitor.swift in Sources */,
+				A00000000000000000000062 /* CreatorStudioView.swift in Sources */,
+				A00000000000000000000063 /* EmotionSoundStudioView.swift in Sources */,
+				A00000000000000000000064 /* ExpressionStudioView.swift in Sources */,
+				A00000000000000000000065 /* CreatorModels.swift in Sources */,
+				A00000000000000000000071 /* EyeGlyphBitmaps.swift in Sources */,
+				A00000000000000000000072 /* ApprovedEyePairBitmaps.swift in Sources */,
+				D10000000000000000000011 /* DesktopRobotAppView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A00000000000000000000040 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+			};
+			name = Debug;
+		};
+		A00000000000000000000041 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A00000000000000000000043 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = J2JD7WBXDM;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RobotEvensControl/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guoyaowen.robotevenscontrol;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A00000000000000000000044 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = J2JD7WBXDM;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RobotEvensControl/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guoyaowen.robotevenscontrol;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A00000000000000000000042 /* Build configuration list for PBXProject "RobotEvensControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000040 /* Debug */,
+				A00000000000000000000041 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A00000000000000000000045 /* Build configuration list for PBXNativeTarget "RobotEvensControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000043 /* Debug */,
+				A00000000000000000000044 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A00000000000000000000001 /* Project object */;
+}

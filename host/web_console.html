@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robot Host Console</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101316;
+      --panel: #171c20;
+      --line: #2f3b43;
+      --text: #ecf2f5;
+      --muted: #9fb0ba;
+      --accent: #54c6a0;
+      --warn: #e8b963;
+      --danger: #ee776d;
+      --field: #0c1013;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #12171a;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    h1, h2 { margin: 0; font-weight: 650; letter-spacing: 0; }
+    h1 { font-size: 16px; }
+    h2 { font-size: 14px; }
+    main { display: grid; gap: 10px; padding: 10px; max-width: 1180px; margin: 0 auto; }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px;
+    }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 6px;
+      margin-top: 8px;
+    }
+    label { display: grid; gap: 4px; color: var(--muted); min-width: 0; font-size: 12px; }
+    input, select, button {
+      width: 100%;
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--field);
+      color: var(--text);
+      font: inherit;
+      padding: 5px 8px;
+    }
+    button {
+      cursor: pointer;
+      background: #1f2a2e;
+      border-color: #40505a;
+      white-space: nowrap;
+    }
+    button.primary { background: #1c4f42; border-color: #29745d; }
+    button.warn { background: #4d3c1f; border-color: #765c30; }
+    button.danger { background: #4a2524; border-color: #7c3c38; }
+    button:hover { border-color: var(--accent); }
+    .button-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 6px; margin-top: 10px; }
+    .asset-editor { margin-top: 10px; }
+    .asset-head { margin: 0 0 6px; }
+    .asset-table { display: grid; gap: 6px; margin-top: 8px; }
+    .asset-row {
+      display: grid;
+      grid-template-columns: 82px minmax(220px, 2fr) minmax(110px, 1fr) minmax(160px, 1.3fr) 72px;
+      gap: 6px;
+      align-items: end;
+    }
+    .asset-row button { min-height: 32px; }
+    .asset-checks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .asset-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #12171a;
+      color: var(--text);
+    }
+    .asset-check input { width: auto; min-height: auto; }
+    .asset-check span { overflow-wrap: anywhere; }
+    .metric {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 6px;
+      background: #12171a;
+      display: grid;
+      align-content: space-between;
+      gap: 4px;
+      min-width: 0;
+    }
+    .metric b { color: var(--muted); font-size: 11px; font-weight: 550; }
+    .metric span { overflow-wrap: anywhere; }
+    .hint { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+    .status { color: var(--accent); }
+    .status.warn { color: var(--warn); }
+    .status.danger { color: var(--danger); }
+    pre {
+      min-height: 120px;
+      max-height: 220px;
+      overflow: auto;
+      margin: 8px 0 0;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: #090d0f;
+      color: #c7d3d9;
+      font-size: 11px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+    }
+    textarea {
+      width: 100%;
+      min-height: 92px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--field);
+      color: var(--text);
+      font: inherit;
+      padding: 6px 8px;
+      resize: vertical;
+    }
+    .log-details { margin-top: 8px; font-size: 12px; color: var(--muted); }
+    .log-details summary { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--field); border-radius: 999px; padding: 4px 8px; color: var(--text); }
+    .log-details[open] summary { margin-bottom: 6px; }
+    .log-details pre { margin-top: 0; }
+    @media (max-width: 720px) {
+      header { align-items: flex-start; flex-direction: column; }
+      main { padding: 8px; }
+      .asset-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Robot Host Console</h1>
+    <div><span id="robotBaseUrl">-</span> <span id="robotState" class="status warn">未连接</span></div>
+  </header>
+  <main>
+    <section>
+      <div class="section-head">
+        <h2>连接</h2>
+        <button onclick="refreshRobot()">刷新</button>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><b>机器人</b><span id="robotUrl">-</span></div>
+        <div class="metric"><b>硬件</b><span id="hardwareReady">-</span></div>
+        <div class="metric"><b>Wi-Fi</b><span id="wifiState">-</span></div>
+        <div class="metric"><b>时间</b><span id="clockState">-</span></div>
+      </div>
+    </section>
+
+    <section id="volc-realtime-panel">
+      <div class="section-head">
+        <h2>豆包 Realtime API 配置</h2>
+      </div>
+      <div class="grid">
+        <label>App ID<input id="realtimeAppId" placeholder="X-Api-App-ID"></label>
+        <label>Access Token<input id="realtimeAccessToken" type="password" placeholder="控制台 Access Token / X-Api-Access-Key"></label>
+        <label>WebSocket<input id="realtimeEndpoint" value="wss://openspeech.bytedance.com/api/v3/realtime/dialogue"></label>
+        <label>模型版本
+          <select id="realtimeModelVersion">
+            <option value="1.2.1.1">O2.0 / 1.2.1.1</option>
+            <option value="2.2.0.0">SC2.0 / 2.2.0.0</option>
+          </select>
+        </label>
+        <label>音色<input id="realtimeSpeaker" value="zh_male_yunzhou_jupiter_bigtts"></label>
+        <label>已知用户<input id="realtimeKnownUser" type="text" value="owner"></label>
+        <label>接收超时 s<input id="realtimeRecvTimeout" type="number" min="10" max="120" step="1" value="15"></label>
+        <label>跳过 TLS 证书校验
+          <select id="realtimeInsecureTls">
+            <option value="0">关</option>
+            <option value="1">开（调试）</option>
+          </select>
+        </label>
+      </div>
+      <p class="hint">按火山实时语音 WebSocket 文档，这里使用 App ID 和 Access Token；Secret Key 当前不参与这条连接。出现 self-signed certificate in certificate chain 时，可临时打开 TLS 调试开关。</p>
+      <label style="margin-top:8px">实时语音系统提示词
+        <textarea id="realtimeFirmwareNotes">你是桌面机器人的实时语音大脑，可以用中文自然语音回答用户。
+回答要短、温暖、像桌面小机器人一样有陪伴感；不要读出 JSON、代码块或内部调试信息。
+机器人硬件会负责播放你的语音，电脑负责 API 和音频转发。
+如果用户只是叫醒你，先简短回应并等待后续问题。</textarea>
+      </label>
+      <div class="button-row">
+        <button onclick="loadModelConfig()">读取 API 配置</button>
+        <button class="primary" onclick="saveModelConfig()">保存 API 配置</button>
+      </div>
+      <h2 style="margin-top:12px">实时语音测试</h2>
+      <div class="grid" style="margin-top:8px">
+        <label>测试文本<input id="realtimeVoiceText" value="机器人，你认识我吗？"></label>
+        <label>浏览器试听
+          <select id="realtimeVoiceAutoplay">
+            <option value="0" selected>关</option>
+            <option value="1">开</option>
+          </select>
+        </label>
+      </div>
+      <div class="button-row">
+        <button class="primary" onclick="runRealtimeVoiceText()">发送到机器人播放 API 语音</button>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><b>实时配置</b><span id="realtimeConfigState">未读取</span></div>
+        <div class="metric"><b>API 语音</b><span id="realtimeVoiceState">待机</span></div>
+        <div class="metric"><b>回复文本</b><span id="realtimeVoiceReply">-</span></div>
+        <div class="metric"><b>机器人播放</b><span id="realtimeRobotAudio">-</span></div>
+        <div class="metric"><b>动作调度</b><span id="realtimeVoiceAgentDispatch">-</span></div>
+        <div class="metric"><b>音频</b><span id="realtimeVoiceAudio">-</span></div>
+      </div>
+      <h2 style="margin-top:12px">网页实时语音</h2>
+      <div class="grid" style="margin-top:8px">
+        <label>音频块 ms<input id="hostRealtimeFrameMs" type="number" min="60" max="320" step="20" value="120"></label>
+        <label>麦克风采样<input id="hostRealtimeInputRate" readonly value="-"></label>
+      </div>
+      <div class="button-row">
+        <button class="primary" onclick="startHostRealtimeVoice()">开始网页实时语音</button>
+        <button onclick="stopHostRealtimeVoice()">停止网页实时语音</button>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><b>网页语音状态</b><span id="hostRealtimeVoiceState">待机</span></div>
+        <div class="metric"><b>已发送帧</b><span id="hostRealtimeVoiceFrames">0</span></div>
+        <div class="metric"><b>API 回复</b><span id="hostRealtimeVoiceReply">-</span></div>
+        <div class="metric"><b>机器人播放</b><span id="hostRealtimeVoiceRobotAudio">-</span></div>
+        <div class="metric"><b>动作调度</b><span id="hostRealtimeVoiceAgentDispatch">-</span></div>
+        <div class="metric"><b>延迟</b><span id="hostRealtimeVoiceLatency">-</span></div>
+      </div>
+      <details class="log-details" open><summary>实时输出</summary><pre id="volcRealtimeLog"></pre></details>
+    </section>
+
+    <section id="agent-dispatch-panel">
+      <div class="section-head">
+        <h2>Agent 调度</h2>
+        <span id="agentDispatchState" class="status warn">待机</span>
+      </div>
+      <div class="grid">
+        <label>调度命令<input id="agentDispatchCommand" value="点头"></label>
+        <label>调度模型
+          <select id="agentEnabled">
+            <option value="0">关</option>
+            <option value="1">开</option>
+          </select>
+        </label>
+        <label>Agent Base URL<input id="agentBaseUrl" value="https://ark.cn-beijing.volces.com/api/v3/chat/completions"></label>
+        <label>Agent API Key<input id="agentApiKey" type="password" placeholder="火山方舟 API Key"></label>
+        <label>Agent Model<input id="agentModel" value="doubao-seed-2-0-mini-260428"></label>
+      </div>
+      <label style="margin-top:8px">调度提示词
+        <textarea id="agentSystemPrompt">你是桌面机器人的动作调度层。
+根据 userText、robotReply 和上下文，选择是否调用一个机器人资源。
+如果 robotReply 是肯定、认识、记得、同意、可以，优先选择 behavior.robot_action.nod_yes。
+如果 robotReply 是否定、不认识、不记得、拒绝、不可以，优先选择 behavior.robot_action.shake_no。
+如果只是普通聊天且不需要身体语言，返回空 action_id。
+只能从 allowedAssets 中选择 action_id；不需要动作时返回空字符串。
+只输出 JSON，例如 {"action_id":"behavior.robot_action.nod_yes","reason":"肯定回答"} 或 {"action_id":"","reason":"无需动作"}。</textarea>
+      </label>
+      <div id="agentAllowedAssets" class="asset-editor">
+        <p class="asset-head">资产白名单</p>
+        <div class="asset-checks">
+          <label class="asset-check"><input type="checkbox" value="behavior.robot_action.nod_yes" checked><span>behavior.robot_action.nod_yes / 点头</span></label>
+          <label class="asset-check"><input type="checkbox" value="behavior.robot_action.shake_no" checked><span>behavior.robot_action.shake_no / 摇头</span></label>
+          <label class="asset-check"><input type="checkbox" value="behavior.emotion.happy" checked><span>behavior.emotion.happy / 开心</span></label>
+          <label class="asset-check"><input type="checkbox" value="behavior.emotion.thinking" checked><span>behavior.emotion.thinking / 思考</span></label>
+          <label class="asset-check"><input type="checkbox" value="behavior.emotion.confused" checked><span>behavior.emotion.confused / 疑惑</span></label>
+          <label class="asset-check"><input type="checkbox" value="expression.curious"><span>expression.curious / 好奇待机</span></label>
+        </div>
+      </div>
+      <div class="button-row">
+        <button onclick="loadAgentConfig()">读取 Agent 配置</button>
+        <button class="primary" onclick="saveAgentConfig()">保存 Agent 配置</button>
+        <button class="primary" onclick="dispatchAgentAction('nod_yes')">点头</button>
+        <button onclick="dispatchAgentAction('shake_no')">摇头</button>
+        <button class="warn" onclick="dispatchAgentAction()">发送命令</button>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><b>动作</b><span id="agentDispatchAction">-</span></div>
+        <div class="metric"><b>结果</b><span id="agentDispatchResult">-</span></div>
+      </div>
+      <h2 style="margin-top:12px">调度状态监控</h2>
+      <div class="metric-grid">
+        <div class="metric"><b>状态</b><span id="agentMonitorState">待机</span></div>
+        <div class="metric"><b>来源</b><span id="agentMonitorSource">-</span></div>
+        <div class="metric"><b>模式</b><span id="agentMonitorMode">-</span></div>
+        <div class="metric"><b>用户转写</b><span id="agentMonitorUserText">-</span></div>
+        <div class="metric"><b>动作</b><span id="agentMonitorAction">-</span></div>
+        <div class="metric"><b>错误</b><span id="agentMonitorError">-</span></div>
+      </div>
+      <details class="log-details" open><summary>调度历史</summary><pre id="agentMonitorHistory">-</pre></details>
+      <details class="log-details"><summary>调度输出</summary><pre id="agentDispatchLog"></pre></details>
+    </section>
+
+    <section id="camera-panel">
+      <div class="section-head">
+        <h2>摄像头人脸</h2>
+        <button onclick="refreshCamera()">刷新</button>
+      </div>
+      <div class="grid">
+        <label>本地人脸注意力
+          <select id="cameraEnabled">
+            <option value="1">开</option>
+            <option value="0">关</option>
+          </select>
+        </label>
+        <label>取证间隔 ms<input id="cameraCaptureInterval" type="number" min="3000" max="180000" step="1000" value="12000"></label>
+        <label>检测超时 ms<input id="cameraDetectTimeout" type="number" min="300" max="5000" step="100" value="1500"></label>
+        <label>回位稳定 ms<input id="cameraReturnSettle" type="number" min="80" max="2000" step="50" value="450"></label>
+        <label>复查稳定 ms<input id="cameraConfirmSettle" type="number" min="80" max="2000" step="50" value="250"></label>
+        <label>锁脸保持 ms<input id="cameraLockHold" type="number" min="1000" max="30000" step="500" value="4500"></label>
+        <label>冷却 ms<input id="cameraCooldown" type="number" min="3000" max="600000" step="1000" value="20000"></label>
+        <label>水平死区<input id="cameraCenterDeadZoneX" type="number" min="0.01" max="0.45" step="0.01" value="0.10"></label>
+        <label>垂直死区<input id="cameraCenterDeadZoneY" type="number" min="0.01" max="0.45" step="0.01" value="0.12"></label>
+        <label>Yaw 单步<input id="cameraYawStepMax" type="number" min="1" max="240" step="1" value="48"></label>
+        <label>Pitch 单步<input id="cameraPitchStepMax" type="number" min="1" max="180" step="1" value="28"></label>
+        <label>口头禅资源<input id="cameraCatchphraseAsset" type="text" value="halo"></label>
+        <label>口头禅后聆听
+          <select id="cameraListenAfterCatchphrase">
+            <option value="1">开</option>
+            <option value="0">关</option>
+          </select>
+        </label>
+        <label>回报置信度<input id="cameraReportConfidence" type="number" min="0" max="1" step="0.01" value="0.86"></label>
+        <label>人脸中心 X<input id="cameraReportCenterX" type="number" min="0" max="1" step="0.01" value="0.55"></label>
+        <label>人脸中心 Y<input id="cameraReportCenterY" type="number" min="0" max="1" step="0.01" value="0.48"></label>
+      </div>
+      <h2 style="margin-top:12px">Host 视觉</h2>
+      <div class="grid" style="margin-top:8px">
+        <label>循环间隔 ms<input id="hostVisionIntervalMs" type="number" min="150" max="10000" step="50" value="700"></label>
+        <label>MediaPipe 置信度<input id="hostVisionMinConfidence" type="number" min="0.1" max="0.95" step="0.05" value="0.55"></label>
+        <label>关闭固件本地检测
+          <select id="hostVisionDisableFirmware">
+            <option value="1">开</option>
+            <option value="0">关</option>
+          </select>
+        </label>
+        <label>调试字幕
+          <select id="hostVisionDebugSubtitle">
+            <option value="0">关</option>
+            <option value="1">开</option>
+          </select>
+        </label>
+      </div>
+      <div class="button-row">
+        <button class="primary" onclick="saveCamera()">保存设置</button>
+        <button onclick="saveCameraCatchphrase()">保存口头禅</button>
+        <button onclick="reportCameraFace()">回报有人脸</button>
+        <button onclick="reportCameraNoFace()">回报无人脸</button>
+        <button class="primary" onclick="stepHostVision()">Host 单步检测</button>
+        <button onclick="startHostVision()">Host 开始追踪</button>
+        <button onclick="stopHostVision()">Host 停止追踪</button>
+        <button class="warn" onclick="wakeCamera()">语音唤醒转向</button>
+        <button class="danger" onclick="clearCamera()">清除记忆</button>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><b>模式</b><span id="cameraMode">-</span></div>
+        <div class="metric"><b>取证 ID</b><span id="cameraSnapshotId">-</span></div>
+        <div class="metric"><b>检测</b><span id="cameraDetecting">-</span></div>
+        <div class="metric"><b>复查</b><span id="cameraConfirming">-</span></div>
+        <div class="metric"><b>检测耗时</b><span id="cameraDetectDuration">-</span></div>
+        <div class="metric"><b>人脸框</b><span id="cameraFaceBox">-</span></div>
+        <div class="metric"><b>目标角度</b><span id="cameraTargetAngle">-</span></div>
+        <div class="metric"><b>冷却</b><span id="cameraCooldownRemaining">-</span></div>
+        <div class="metric"><b>口头禅</b><span id="cameraCatchphraseState">-</span></div>
+        <div class="metric"><b>Host 视觉</b><span id="hostVisionState">-</span></div>
+        <div class="metric"><b>Host 人脸</b><span id="hostVisionFace">-</span></div>
+        <div class="metric"><b>Host 帧数</b><span id="hostVisionFrameCount">-</span></div>
+        <div class="metric"><b>Host 错误</b><span id="hostVisionError">-</span></div>
+      </div>
+      <details class="log-details"><summary>调试输出</summary><pre id="cameraLog"></pre></details>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const bool = id => $(id).value === '1';
+    const setBool = (id, value) => { $(id).value = value ? '1' : '0'; };
+    const setVal = (id, value) => { if (value !== undefined && value !== null) $(id).value = value; };
+    const hostRealtimeVoice = {
+      active: false,
+      stream: null,
+      context: null,
+      source: null,
+      processor: null,
+      chunkQueue: [],
+      pendingBytes: new Uint8Array(),
+      sending: false,
+      sendFailures: 0
+    };
+
+    async function api(path, payload) {
+      const options = payload === undefined ? {} : {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      };
+      const response = await fetch(path, options);
+      const data = await response.json();
+      if (!response.ok || data.ok === false) throw new Error(data.error || `HTTP ${response.status}`);
+      return data;
+    }
+
+    function writeLog(id, data) {
+      const el = $(id);
+      if (!el) return;
+      el.textContent = JSON.stringify(data, null, 2);
+    }
+
+    function setSelectBool(id, value) {
+      $(id).value = value ? '1' : '0';
+    }
+
+    function getSelectBool(id) {
+      return $(id).value === '1';
+    }
+
+    function truthyFlag(value) {
+      return value === true || value === 1 || value === '1' || value === 'true' || value === 'on' || value === '开';
+    }
+
+    function seconds(ms) {
+      return ms ? `${Math.ceil(ms / 1000)}秒` : '-';
+    }
+
+    function currentModelConfig() {
+      return {
+        knownUser: $('realtimeKnownUser').value.trim(),
+        realtimeAppId: $('realtimeAppId').value.trim(),
+        realtimeAccessToken: $('realtimeAccessToken').value.trim(),
+        realtimeEndpoint: $('realtimeEndpoint').value.trim(),
+        realtimeModelVersion: $('realtimeModelVersion').value,
+        realtimeSpeaker: $('realtimeSpeaker').value.trim(),
+        realtimeRecvTimeout: $('realtimeRecvTimeout').value,
+        realtimeInsecureTls: $('realtimeInsecureTls').value,
+        realtimeFirmwareNotes: $('realtimeFirmwareNotes').value,
+        ...currentAgentConfig()
+      };
+    }
+
+    function currentAgentConfig() {
+      return {
+        agentEnabled: $('agentEnabled').value,
+        agentBaseUrl: $('agentBaseUrl').value.trim(),
+        agentApiKey: $('agentApiKey').value.trim(),
+        agentModel: $('agentModel').value.trim(),
+        agentSystemPrompt: $('agentSystemPrompt').value,
+        agentAllowedAssets: Array.from(document.querySelectorAll('#agentAllowedAssets input[type="checkbox"]:checked')).map(input => input.value)
+      };
+    }
+
+    function syncAgentAllowedAssets(values) {
+      if (!Array.isArray(values)) return;
+      const allowed = new Set(values);
+      document.querySelectorAll('#agentAllowedAssets input[type="checkbox"]').forEach(input => {
+        input.checked = allowed.has(input.value);
+      });
+    }
+
+    function syncModelConfig(payload) {
+      const config = payload?.config || {};
+      if (config.knownUser !== undefined) $('realtimeKnownUser').value = config.knownUser;
+      if (config.realtimeAppId !== undefined) $('realtimeAppId').value = config.realtimeAppId;
+      if (config.realtimeAccessToken !== undefined) $('realtimeAccessToken').value = config.realtimeAccessToken;
+      else if (config.realtimeAccessKey !== undefined) $('realtimeAccessToken').value = config.realtimeAccessKey;
+      if (config.realtimeEndpoint !== undefined) $('realtimeEndpoint').value = config.realtimeEndpoint;
+      if (config.realtimeModelVersion !== undefined) $('realtimeModelVersion').value = config.realtimeModelVersion;
+      if (config.realtimeSpeaker !== undefined) $('realtimeSpeaker').value = config.realtimeSpeaker;
+      if (config.realtimeRecvTimeout !== undefined) $('realtimeRecvTimeout').value = config.realtimeRecvTimeout;
+      if (config.realtimeInsecureTls !== undefined) setSelectBool('realtimeInsecureTls', truthyFlag(config.realtimeInsecureTls));
+      if (config.realtimeFirmwareNotes !== undefined) $('realtimeFirmwareNotes').value = config.realtimeFirmwareNotes;
+      if (config.agentEnabled !== undefined) setSelectBool('agentEnabled', truthyFlag(config.agentEnabled));
+      if (config.agentBaseUrl !== undefined) $('agentBaseUrl').value = config.agentBaseUrl;
+      if (config.agentApiKey !== undefined) $('agentApiKey').value = config.agentApiKey;
+      if (config.agentModel !== undefined) $('agentModel').value = config.agentModel;
+      if (config.agentSystemPrompt !== undefined) $('agentSystemPrompt').value = config.agentSystemPrompt;
+      if (config.agentAllowedAssets !== undefined) syncAgentAllowedAssets(config.agentAllowedAssets);
+      const state = payload?.saved ? '已保存到电脑端' : '未保存';
+      if ($('realtimeConfigState')) $('realtimeConfigState').textContent = state;
+    }
+
+    async function loadModelConfig() {
+      try {
+        const result = await api('/api/host/model-config/status');
+        syncModelConfig(result);
+        writeLog('volcRealtimeLog', result);
+      } catch (err) {
+        if ($('realtimeConfigState')) $('realtimeConfigState').textContent = '读取失败';
+        writeLog('volcRealtimeLog', {ok: false, error: err.message});
+      }
+    }
+
+    async function saveModelConfig() {
+      try {
+        const result = await api('/api/host/model-config/save', currentModelConfig());
+        syncModelConfig(result);
+        writeLog('volcRealtimeLog', result);
+      } catch (err) {
+        if ($('realtimeConfigState')) $('realtimeConfigState').textContent = '保存失败';
+        writeLog('volcRealtimeLog', {ok: false, error: err.message});
+      }
+    }
+
+    async function loadAgentConfig() {
+      try {
+        const result = await api('/api/host/model-config/status');
+        syncModelConfig(result);
+        $('agentDispatchState').textContent = result.saved ? '已读取配置' : '未保存';
+        $('agentDispatchState').className = result.saved ? 'status' : 'status warn';
+        writeLog('agentDispatchLog', result);
+      } catch (err) {
+        $('agentDispatchState').textContent = '读取失败';
+        $('agentDispatchState').className = 'status danger';
+        writeLog('agentDispatchLog', {ok: false, error: err.message});
+      }
+    }
+
+    async function saveAgentConfig() {
+      try {
+        const result = await api('/api/host/model-config/save', currentAgentConfig());
+        syncModelConfig(result);
+        $('agentDispatchState').textContent = '配置已保存';
+        $('agentDispatchState').className = 'status';
+        writeLog('agentDispatchLog', result);
+      } catch (err) {
+        $('agentDispatchState').textContent = '保存失败';
+        $('agentDispatchState').className = 'status danger';
+        writeLog('agentDispatchLog', {ok: false, error: err.message});
+      }
+    }
+
+    function logRealtimeResult(result) {
+      const copy = {...result};
+      if (copy.audioBase64) copy.audioBase64 = `<${copy.audioBytes || 0} bytes>`;
+      writeLog('volcRealtimeLog', copy);
+    }
+
+    function formatAgentDispatch(dispatch) {
+      if (!dispatch) return '-';
+      if (dispatch.skipped) return '未触发';
+      if (dispatch.ok === false) return `失败：${dispatch.error || '-'}`;
+      return dispatch.dispatch?.action_id || dispatch.behavior?.action?.action_id || '已触发';
+    }
+
+    function formatWallTime(ms) {
+      if (!ms) return '-';
+      try {
+        return new Date(ms).toLocaleTimeString();
+      } catch (err) {
+        return '-';
+      }
+    }
+
+    function agentMonitorStateText(state) {
+      return {
+        idle: '待机',
+        running: '调用中',
+        ok: '成功',
+        error: '失败',
+        skipped: '未触发'
+      }[state] || state || '待机';
+    }
+
+    function renderAgentMonitor(status) {
+      if (!status) return;
+      const item = status.current?.id ? status.current : (status.last || {});
+      const state = status.state || item.state || 'idle';
+      $('agentMonitorState').textContent = `${agentMonitorStateText(state)} / ${formatWallTime(item.updatedAtMs || item.startedAtMs)}`;
+      $('agentMonitorSource').textContent = item.source || '-';
+      $('agentMonitorMode').textContent = item.mode || '-';
+      $('agentMonitorUserText').textContent = item.userText || '-';
+      $('agentMonitorAction').textContent = item.actionId || item.command || '-';
+      $('agentMonitorError').textContent = item.error || item.reason || item.stage || '-';
+      $('agentDispatchState').className = state === 'error' ? 'status danger' : (state === 'running' ? 'status warn' : 'status');
+      const rows = (status.history || []).slice(0, 12).map(entry => {
+        const head = `${formatWallTime(entry.finishedAtMs || entry.updatedAtMs)} ${agentMonitorStateText(entry.state)} ${entry.source || '-'}`;
+        const detail = [entry.mode, entry.actionId || entry.command, entry.error || entry.reason || entry.stage].filter(Boolean).join(' / ');
+        return detail ? `${head} / ${detail}` : head;
+      });
+      $('agentMonitorHistory').textContent = rows.length ? rows.join('\n') : '-';
+    }
+
+    async function refreshAgentMonitor() {
+      try {
+        const status = await api('/api/agent/dispatch-monitor');
+        renderAgentMonitor(status);
+        return status;
+      } catch (err) {
+        $('agentMonitorState').textContent = `监控失败：${err.message}`;
+        $('agentMonitorError').textContent = err.message;
+        return null;
+      }
+    }
+
+    function base64ToBytes(value) {
+      const raw = atob(value || '');
+      const bytes = new Uint8Array(raw.length);
+      for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+      return bytes;
+    }
+
+    async function playRealtimePcm16(audioBase64, sampleRate) {
+      const bytes = base64ToBytes(audioBase64);
+      const samples = new Int16Array(bytes.buffer, bytes.byteOffset, Math.floor(bytes.byteLength / 2));
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const context = new AudioContext({sampleRate: sampleRate || 24000});
+      if (context.state === 'suspended') await context.resume();
+      const buffer = context.createBuffer(1, samples.length, sampleRate || 24000);
+      const channel = buffer.getChannelData(0);
+      for (let i = 0; i < samples.length; i++) channel[i] = Math.max(-1, Math.min(1, samples[i] / 32768));
+      const source = context.createBufferSource();
+      source.buffer = buffer;
+      source.connect(context.destination);
+      source.start();
+    }
+
+    async function runRealtimeVoiceText() {
+      const text = $('realtimeVoiceText').value.trim();
+      if (!text) {
+        const result = {ok: false, error: '测试文本不能为空'};
+        $('realtimeVoiceState').textContent = '缺少文本';
+        logRealtimeResult(result);
+        return;
+      }
+      $('realtimeVoiceState').textContent = '请求中';
+      $('realtimeVoiceReply').textContent = '-';
+      $('realtimeVoiceAudio').textContent = '-';
+      $('realtimeRobotAudio').textContent = '-';
+      $('realtimeVoiceAgentDispatch').textContent = '-';
+      try {
+        const result = await api('/api/host/realtime-voice/text', {
+          text,
+          config: currentModelConfig()
+        });
+        $('realtimeVoiceState').textContent = result.ok ? '已返回' : '失败';
+        $('realtimeVoiceReply').textContent = result.chatText || '-';
+        $('realtimeVoiceAudio').textContent = result.audioBytes ? `${result.audioBytes} bytes / ${result.audioSampleRate || 24000} Hz` : '无音频';
+        const robotAudio = result.robotAudio || {};
+        $('realtimeRobotAudio').textContent = robotAudio.ok
+          ? `${robotAudio.uploadedBytes || 0} bytes / ${robotAudio.sampleRate || 16000} Hz`
+          : (robotAudio.error ? `失败：${robotAudio.error}` : '-');
+        $('realtimeVoiceAgentDispatch').textContent = formatAgentDispatch(result.agentDispatch);
+        logRealtimeResult(result);
+        await refreshAgentMonitor();
+        if (result.audioBase64 && bool('realtimeVoiceAutoplay')) {
+          await playRealtimePcm16(result.audioBase64, result.audioSampleRate || 24000);
+        }
+      } catch (err) {
+        $('realtimeVoiceState').textContent = '失败';
+        logRealtimeResult({ok: false, error: err.message});
+      }
+    }
+
+    async function dispatchAgentAction(command) {
+      const chosen = command || $('agentDispatchCommand').value.trim();
+      if (!chosen) {
+        const result = {ok: false, error: '调度命令不能为空'};
+        $('agentDispatchState').textContent = '缺少命令';
+        $('agentDispatchState').className = 'status danger';
+        writeLog('agentDispatchLog', result);
+        return;
+      }
+      $('agentDispatchState').textContent = '调度中';
+      $('agentDispatchState').className = 'status warn';
+      try {
+        const result = await api('/api/agent/dispatch-action', {
+          command: chosen,
+          source: 'host_console',
+          bypass_cooldown: true
+        });
+        const action = result.dispatch?.action_id || '-';
+        const behavior = result.behavior || {};
+        $('agentDispatchAction').textContent = action;
+        $('agentDispatchResult').textContent = behavior.ok === false ? `失败：${behavior.error || '-'}` : '已发送';
+        $('agentDispatchState').textContent = result.ok ? '已完成' : '失败';
+        $('agentDispatchState').className = result.ok ? 'status' : 'status danger';
+        writeLog('agentDispatchLog', result);
+        await refreshAgentMonitor();
+        await refreshRobot();
+      } catch (err) {
+        $('agentDispatchState').textContent = '失败';
+        $('agentDispatchState').className = 'status danger';
+        $('agentDispatchResult').textContent = err.message;
+        writeLog('agentDispatchLog', {ok: false, error: err.message});
+        await refreshAgentMonitor();
+      }
+    }
+
+    function bytesToBase64(bytes) {
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let offset = 0; offset < bytes.length; offset += chunkSize) {
+        const chunk = bytes.subarray(offset, offset + chunkSize);
+        binary += String.fromCharCode.apply(null, chunk);
+      }
+      return btoa(binary);
+    }
+
+    function resampleMono(input, sourceRate, targetRate) {
+      if (!input || !input.length) return new Float32Array();
+      if (sourceRate === targetRate) return new Float32Array(input);
+      const ratio = sourceRate / targetRate;
+      const length = Math.max(1, Math.floor(input.length / ratio));
+      const output = new Float32Array(length);
+      for (let i = 0; i < length; i++) {
+        const pos = i * ratio;
+        const left = Math.floor(pos);
+        const right = Math.min(input.length - 1, left + 1);
+        const frac = pos - left;
+        output[i] = input[left] * (1 - frac) + input[right] * frac;
+      }
+      return output;
+    }
+
+    function floatToPcm16Bytes(samples) {
+      const bytes = new Uint8Array(samples.length * 2);
+      const view = new DataView(bytes.buffer);
+      for (let i = 0; i < samples.length; i++) {
+        const clamped = Math.max(-1, Math.min(1, samples[i]));
+        view.setInt16(i * 2, clamped < 0 ? clamped * 0x8000 : clamped * 0x7fff, true);
+      }
+      return bytes;
+    }
+
+    function concatBytes(left, right) {
+      if (!left || !left.length) return right;
+      if (!right || !right.length) return left;
+      const combined = new Uint8Array(left.length + right.length);
+      combined.set(left, 0);
+      combined.set(right, left.length);
+      return combined;
+    }
+
+    function hostRealtimeTargetBytes() {
+      const frameMs = Math.max(60, Math.min(320, Number($('hostRealtimeFrameMs').value) || 120));
+      return Math.max(640, Math.floor(16000 * 2 * frameMs / 1000));
+    }
+
+    function queueHostRealtimeVoicePcm(bytes) {
+      if (!hostRealtimeVoice.active || !bytes || !bytes.length) return;
+      hostRealtimeVoice.pendingBytes = concatBytes(hostRealtimeVoice.pendingBytes, bytes);
+      const targetBytes = hostRealtimeTargetBytes();
+      while (hostRealtimeVoice.pendingBytes.length >= targetBytes) {
+        const chunk = hostRealtimeVoice.pendingBytes.slice(0, targetBytes);
+        hostRealtimeVoice.pendingBytes = hostRealtimeVoice.pendingBytes.slice(targetBytes);
+        sendHostRealtimeVoiceFrame(chunk);
+      }
+    }
+
+    function formatLatencyMs(value) {
+      return value === null || value === undefined ? '-' : `${value}ms`;
+    }
+
+    function renderHostRealtimeVoiceStatus(result) {
+      if (!result) return;
+      const state = result.active ? (result.stage === 'speaking' ? '机器人播放中' : '监听中') : (result.stage === 'error' ? '错误' : '待机');
+      const gateName = {
+        speech: '说话',
+        tail_silence: '停顿',
+        pre_speech_silence: '待声',
+        paused_silence: '降噪'
+      }[result.lastAudioGate] || result.lastAudioGate || '';
+      $('hostRealtimeVoiceState').textContent = result.lastError ? `错误：${result.lastError}` : (gateName ? `${state} / ${gateName}` : state);
+      const sentFrames = result.audioFrameCount ?? 0;
+      const capturedFrames = result.capturedFrameCount ?? sentFrames;
+      const droppedFrames = result.droppedSilenceFrameCount ?? 0;
+      $('hostRealtimeVoiceFrames').textContent = `${sentFrames} / 捕获 ${capturedFrames} / 降噪 ${droppedFrames}`;
+      $('hostRealtimeVoiceReply').textContent = result.lastChatText || '-';
+      const robotAudio = result.lastRobotAudio || {};
+      $('hostRealtimeVoiceRobotAudio').textContent = robotAudio.ok
+        ? `${robotAudio.uploadedBytes || 0} bytes / ${robotAudio.sampleRate || 16000} Hz`
+        : (robotAudio.error ? `失败：${robotAudio.error}` : '-');
+      $('hostRealtimeVoiceAgentDispatch').textContent = formatAgentDispatch(result.lastAgentDispatch);
+      const latency = result.latency || {};
+      $('hostRealtimeVoiceLatency').textContent = [
+        `说完→API ${formatLatencyMs(latency.lastSpeechToFirstApiEventMs)}`,
+        `API→TTS ${formatLatencyMs(latency.firstApiEventToTtsEndedMs)}`,
+        `TTS→播放 ${formatLatencyMs(latency.ttsEndedToRobotPlayStartMs)}`,
+        `播放 ${formatLatencyMs(latency.robotPlayMs)}`
+      ].join(' / ');
+      refreshAgentMonitor();
+      logRealtimeResult(result);
+    }
+
+    async function refreshHostRealtimeVoiceStatus() {
+      try {
+        const result = await api('/api/host/realtime-voice/session/status');
+        renderHostRealtimeVoiceStatus(result);
+      } catch (err) {
+        $('hostRealtimeVoiceState').textContent = `状态失败：${err.message}`;
+      }
+    }
+
+    async function startHostRealtimeVoice() {
+      if (hostRealtimeVoice.active) return;
+      $('hostRealtimeVoiceState').textContent = '连接实时 API';
+      try {
+        const started = await api('/api/host/realtime-voice/session/start', {
+          config: currentModelConfig()
+        });
+        renderHostRealtimeVoiceStatus(started);
+        const mediaDevices = navigator.mediaDevices;
+        if (!mediaDevices?.getUserMedia) throw new Error('浏览器不支持麦克风');
+        hostRealtimeVoice.stream = await mediaDevices.getUserMedia({
+          audio: {
+            channelCount: 1,
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        });
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        hostRealtimeVoice.context = new AudioContext();
+        if (hostRealtimeVoice.context.state === 'suspended') await hostRealtimeVoice.context.resume();
+        $('hostRealtimeInputRate').value = `${hostRealtimeVoice.context.sampleRate} Hz`;
+        hostRealtimeVoice.source = hostRealtimeVoice.context.createMediaStreamSource(hostRealtimeVoice.stream);
+        hostRealtimeVoice.processor = hostRealtimeVoice.context.createScriptProcessor(4096, 1, 1);
+        hostRealtimeVoice.processor.onaudioprocess = event => {
+          if (!hostRealtimeVoice.active) return;
+          const input = event.inputBuffer.getChannelData(0);
+          const output = event.outputBuffer.getChannelData(0);
+          output.fill(0);
+          const pcm = floatToPcm16Bytes(resampleMono(input, hostRealtimeVoice.context.sampleRate, 16000));
+          queueHostRealtimeVoicePcm(pcm);
+        };
+        hostRealtimeVoice.source.connect(hostRealtimeVoice.processor);
+        hostRealtimeVoice.processor.connect(hostRealtimeVoice.context.destination);
+        hostRealtimeVoice.active = true;
+        hostRealtimeVoice.sendFailures = 0;
+        $('hostRealtimeVoiceState').textContent = '监听中';
+      } catch (err) {
+        $('hostRealtimeVoiceState').textContent = `启动失败：${err.message}`;
+        writeLog('volcRealtimeLog', {ok: false, error: err.message});
+        await stopHostRealtimeVoice();
+      }
+    }
+
+    async function sendHostRealtimeVoiceFrame(bytes) {
+      if (!hostRealtimeVoice.active || !bytes || !bytes.length) return;
+      if (hostRealtimeVoice.chunkQueue.length > 24) {
+        hostRealtimeVoice.chunkQueue.splice(0, hostRealtimeVoice.chunkQueue.length - 12);
+      }
+      hostRealtimeVoice.chunkQueue.push(bytes);
+      if (hostRealtimeVoice.sending) return;
+      hostRealtimeVoice.sending = true;
+      while (hostRealtimeVoice.active && hostRealtimeVoice.chunkQueue.length) {
+        const chunk = hostRealtimeVoice.chunkQueue.shift();
+        try {
+          const result = await api('/api/host/realtime-voice/session/frame', {
+            audioBase64: bytesToBase64(chunk)
+          });
+          renderHostRealtimeVoiceStatus(result);
+        } catch (err) {
+          hostRealtimeVoice.sendFailures += 1;
+          $('hostRealtimeVoiceState').textContent = `发送失败：${err.message}`;
+          writeLog('volcRealtimeLog', {ok: false, error: err.message, failures: hostRealtimeVoice.sendFailures});
+          break;
+        }
+      }
+      hostRealtimeVoice.sending = false;
+    }
+
+    async function stopHostRealtimeVoice() {
+      hostRealtimeVoice.active = false;
+      hostRealtimeVoice.chunkQueue = [];
+      hostRealtimeVoice.pendingBytes = new Uint8Array();
+      if (hostRealtimeVoice.processor) {
+        try { hostRealtimeVoice.processor.disconnect(); } catch (err) {}
+        hostRealtimeVoice.processor.onaudioprocess = null;
+        hostRealtimeVoice.processor = null;
+      }
+      if (hostRealtimeVoice.source) {
+        try { hostRealtimeVoice.source.disconnect(); } catch (err) {}
+        hostRealtimeVoice.source = null;
+      }
+      if (hostRealtimeVoice.stream) {
+        hostRealtimeVoice.stream.getTracks().forEach(track => track.stop());
+        hostRealtimeVoice.stream = null;
+      }
+      if (hostRealtimeVoice.context) {
+        try { await hostRealtimeVoice.context.close(); } catch (err) {}
+        hostRealtimeVoice.context = null;
+      }
+      $('hostRealtimeInputRate').value = '-';
+      try {
+        const result = await api('/api/host/realtime-voice/session/stop', {});
+        renderHostRealtimeVoiceStatus(result);
+      } catch (err) {
+        $('hostRealtimeVoiceState').textContent = `停止失败：${err.message}`;
+      }
+    }
+
+    async function refreshRobot() {
+      try {
+        const cfg = await api('/api/config');
+        $('robotBaseUrl').textContent = cfg.robotBaseUrl || '-';
+        $('robotUrl').textContent = cfg.robotBaseUrl || '-';
+        const status = await api('/api/robot/status');
+        $('robotState').textContent = '已连接';
+        $('robotState').className = 'status';
+        $('hardwareReady').textContent = status.hardwareReady || status.hardware?.ready ? 'ready' : JSON.stringify(status.hardware || status.ok);
+        $('wifiState').textContent = status.wifi || status.ip || '-';
+        $('clockState').textContent = status.clock?.dateTimeText || status.clock?.sleeping || '-';
+      } catch (err) {
+        $('robotState').textContent = err.message;
+        $('robotState').className = 'status danger';
+      }
+    }
+
+    function renderCamera(s) {
+      setBool('cameraEnabled', !!s.enabled);
+      setVal('cameraCaptureInterval', s.captureIntervalMs);
+      setVal('cameraDetectTimeout', s.detectTimeoutMs);
+      setVal('cameraReturnSettle', s.returnSettleMs);
+      setVal('cameraConfirmSettle', s.confirmSettleMs);
+      setVal('cameraLockHold', s.lockHoldMs);
+      setVal('cameraCooldown', s.cooldownMs);
+      setVal('cameraCenterDeadZoneX', s.centerDeadZoneX);
+      setVal('cameraCenterDeadZoneY', s.centerDeadZoneY);
+      setVal('cameraYawStepMax', s.yawStepMax);
+      setVal('cameraPitchStepMax', s.pitchStepMax);
+      setVal('cameraCatchphraseAsset', s.catchphraseAssetId || 'halo');
+      setBool('cameraListenAfterCatchphrase', !!s.listenAfterCatchphrase);
+      $('cameraMode').textContent = s.mode || '-';
+      $('cameraSnapshotId').textContent = s.snapshotId ?? '-';
+      $('cameraDetecting').textContent = s.detecting ? '检测中' : (s.detector && s.detector.cameraAvailable ? '可用' : '不可用');
+      $('cameraConfirming').textContent = s.confirming ? '复查中' : '否';
+      $('cameraDetectDuration').textContent = s.lastDetectDurationMs ? `${s.lastDetectDurationMs} ms` : '-';
+      $('cameraFaceBox').textContent = s.lastFaceDetected ? `${Number(s.faceCenterX || 0).toFixed(2)}, ${Number(s.faceCenterY || 0).toFixed(2)} / ${Number(s.faceWidth || 0).toFixed(2)}x${Number(s.faceHeight || 0).toFixed(2)}` : '无';
+      $('cameraTargetAngle').textContent = `${s.targetYaw ?? '-'} / ${s.targetPitch ?? '-'}`;
+      $('cameraCooldownRemaining').textContent = seconds(s.cooldownRemainingMs);
+      $('cameraCatchphraseState').textContent = `${s.catchphraseAssetId || 'halo'} / ${s.listenAfterCatchphrase ? '聆听' : '不聆听'}`;
+    }
+
+    async function refreshCamera() {
+      try {
+        const s = await api('/api/robot/camera/status');
+        renderCamera(s);
+        writeLog('cameraLog', s);
+      } catch (err) {
+        writeLog('cameraLog', {ok: false, error: err.message});
+      }
+    }
+
+    async function saveCamera() {
+      const s = await api('/api/robot/camera/set', {
+        enabled: bool('cameraEnabled'),
+        captureIntervalMs: +$('cameraCaptureInterval').value,
+        detectTimeoutMs: +$('cameraDetectTimeout').value,
+        returnSettleMs: +$('cameraReturnSettle').value,
+        confirmSettleMs: +$('cameraConfirmSettle').value,
+        lockHoldMs: +$('cameraLockHold').value,
+        cooldownMs: +$('cameraCooldown').value,
+        centerDeadZoneX: +$('cameraCenterDeadZoneX').value,
+        centerDeadZoneY: +$('cameraCenterDeadZoneY').value,
+        yawStepMax: +$('cameraYawStepMax').value,
+        pitchStepMax: +$('cameraPitchStepMax').value,
+        catchphraseAssetId: $('cameraCatchphraseAsset').value,
+        listenAfterCatchphrase: bool('cameraListenAfterCatchphrase')
+      });
+      renderCamera(s);
+      writeLog('cameraLog', s);
+    }
+
+    async function saveCameraCatchphrase() {
+      const s = await api('/api/robot/camera/catchphrase', {
+        assetId: $('cameraCatchphraseAsset').value,
+        listenAfter: bool('cameraListenAfterCatchphrase')
+      });
+      renderCamera(s);
+      writeLog('cameraLog', s);
+    }
+
+    async function reportCameraFace() {
+      const s = await api('/api/robot/camera/face-report', {
+        scanId: +$('cameraSnapshotId').textContent || 0,
+        faceDetected: true,
+        confidence: +$('cameraReportConfidence').value,
+        faceCenterX: +$('cameraReportCenterX').value,
+        faceCenterY: +$('cameraReportCenterY').value,
+        faceWidth: 0.24,
+        faceHeight: 0.32
+      });
+      renderCamera(s);
+      writeLog('cameraLog', s);
+    }
+
+    async function reportCameraNoFace() {
+      const s = await api('/api/robot/camera/face-report', {
+        scanId: +$('cameraSnapshotId').textContent || 0,
+        faceDetected: false,
+        confidence: 0
+      });
+      renderCamera(s);
+      writeLog('cameraLog', s);
+    }
+
+    async function wakeCamera() {
+      const s = await api('/api/robot/camera/wake', {});
+      writeLog('cameraLog', s);
+      await refreshCamera();
+    }
+
+    async function clearCamera() {
+      const s = await api('/api/robot/camera/clear', {});
+      renderCamera(s);
+      writeLog('cameraLog', s);
+    }
+
+    function hostVisionPayload() {
+      return {
+        intervalMs: +$('hostVisionIntervalMs').value || 700,
+        minConfidence: +$('hostVisionMinConfidence').value || 0.55,
+        disableFirmwareLocal: bool('hostVisionDisableFirmware'),
+        debugSubtitle: bool('hostVisionDebugSubtitle'),
+        force: true
+      };
+    }
+
+    function renderHostVision(s) {
+      if (!s) return;
+      $('hostVisionState').textContent = s.active ? '追踪中' : '待机';
+      $('hostVisionFrameCount').textContent = s.frameCount ?? s.lastResult?.frameCount ?? '-';
+      $('hostVisionError').textContent = s.lastError || s.error || '-';
+      const face = s.face || s.lastFace || s.lastResult?.face;
+      $('hostVisionFace').textContent = face ? `${Number(face.faceCenterX || 0).toFixed(2)}, ${Number(face.faceCenterY || 0).toFixed(2)} / ${Number(face.confidence || 0).toFixed(2)}` : s.faceDetected ? '有脸' : '无';
+      if (s.settings) {
+        setVal('hostVisionIntervalMs', s.settings.intervalMs);
+        if (s.settings.disableFirmwareLocal !== undefined) setBool('hostVisionDisableFirmware', !!s.settings.disableFirmwareLocal);
+        if (s.settings.debugSubtitle !== undefined) setBool('hostVisionDebugSubtitle', !!s.settings.debugSubtitle);
+      }
+    }
+
+    async function refreshHostVision() {
+      try {
+        const s = await api('/api/host/vision/status');
+        renderHostVision(s);
+        writeLog('cameraLog', s);
+      } catch (err) {
+        writeLog('cameraLog', {ok: false, error: err.message});
+      }
+    }
+
+    async function stepHostVision() {
+      const s = await api('/api/host/vision/step', hostVisionPayload());
+      renderHostVision(s);
+      writeLog('cameraLog', s);
+      await refreshCamera();
+    }
+
+    async function startHostVision() {
+      const s = await api('/api/host/vision/start', hostVisionPayload());
+      renderHostVision(s);
+      writeLog('cameraLog', s);
+    }
+
+    async function stopHostVision() {
+      const s = await api('/api/host/vision/stop', {});
+      renderHostVision(s);
+      writeLog('cameraLog', s);
+    }
+
+    refreshRobot();
+    loadModelConfig();
+    refreshAgentMonitor();
+    refreshCamera();
+    refreshHostVision();
+    setInterval(refreshCamera, 2500);
+    setInterval(refreshHostVision, 2500);
+    setInterval(refreshAgentMonitor, 2000);
+    setInterval(() => {
+      if (hostRealtimeVoice.active) refreshHostRealtimeVoiceStatus();
+    }, 1500);
+    window.addEventListener('beforeunload', () => {
+      if (hostRealtimeVoice.active) {
+        navigator.sendBeacon?.('/api/host/realtime-voice/session/stop', new Blob(['{}'], {type: 'application/json'}));
+      }
+    });
+  </script>
+</body>
+</html>

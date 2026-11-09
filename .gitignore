@@ -1,0 +1,25 @@
+# Local secrets and device settings
+firmware/config.local.h
+host/host_state.local.json
+host/assistant_status.local.json
+host/model_api_config.local.json
+.env
+.env.*
+
+# Build and editor artifacts
+.DS_Store
+__pycache__/
+*.pyc
+build/
+dist/
+*.bin
+*.elf
+*.map
+DerivedData/
+
+# Device backups and local working state
+backups/
+artifacts/
+project_management/
+START_HERE.md
+AGENTS.md

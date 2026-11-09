@@ -1,0 +1,455 @@
+{
+  "kind": "robot-evens-standard-firmware-settings",
+  "schemaVersion": 1,
+  "sourceSnapshot": "backups/robot-device-settings-20260701-042401.json",
+  "capturedAt": "2026-07-01T04:23:56+0800",
+  "source": "http://192.168.0.103",
+  "endpoints": {
+    "status": "/api/status",
+    "triggers": "/api/triggers/status",
+    "idle": "/api/idle/status",
+    "camera": "/api/camera/status",
+    "clock": "/api/clock/status",
+    "mumble": "/api/mumble/status",
+    "proximity": "/api/proximity/status",
+    "emotion": "/api/emotion/status",
+    "emotionSoundSlots": "/api/emotion/sound-slots",
+    "listening": "/api/listening/status",
+    "voiceNod": "/api/voice-nod/status",
+    "debugSubtitle": "/api/debug/subtitle/status",
+    "motionStream": "/api/motion/stream/status",
+    "screen": "/api/screen/status"
+  },
+  "endpointErrors": {
+    "voiceNod": {
+      "path": "/api/voice-nod/status",
+      "error": "HTTP Error 404: Not Found"
+    }
+  },
+  "excludedEphemeralFields": [
+    "Wi-Fi credentials",
+    "network address and signal diagnostics",
+    "uptime and heap diagnostics",
+    "battery readings",
+    "active behavior names and step timers",
+    "sensor readings",
+    "cooldowns and trigger timestamps",
+    "face detection results and camera snapshots",
+    "assistant status text",
+    "date-time display text",
+    "uploaded runtime audio bytes"
+  ],
+  "settings": {
+    "faceMoodStyles": {
+      "neutral": {
+        "eyeWidthScale": 1.28,
+        "eyeHeightScale": 1.19,
+        "cornerRadius": 36,
+        "eyeOffsetX": 13,
+        "eyeOffsetY": -35,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "happy": {
+        "eyeWidthScale": 0.35,
+        "eyeHeightScale": 1.33,
+        "cornerRadius": 53,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -51,
+        "eyeSpacing": 105,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "angry": {
+        "eyeWidthScale": 0.87,
+        "eyeHeightScale": 1.16,
+        "cornerRadius": 15,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -35,
+        "eyeSpacing": 100,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "sad": {
+        "eyeWidthScale": 1.0,
+        "eyeHeightScale": 1.0,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -35,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "sleeping": {
+        "eyeWidthScale": 1.0,
+        "eyeHeightScale": 1.0,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -28,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "tired": {
+        "eyeWidthScale": 1.19,
+        "eyeHeightScale": 1.56,
+        "cornerRadius": 18,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -57,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "surprised": {
+        "eyeWidthScale": 0.58,
+        "eyeHeightScale": 0.35,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -38,
+        "eyeSpacing": 101,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "love": {
+        "eyeWidthScale": 1.93,
+        "eyeHeightScale": 1.55,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -37,
+        "eyeSpacing": 108,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "dizzy": {
+        "eyeWidthScale": 1.88,
+        "eyeHeightScale": 1.94,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -25,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "wink": {
+        "eyeWidthScale": 1.0,
+        "eyeHeightScale": 1.0,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -38,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "dead": {
+        "eyeWidthScale": 1.08,
+        "eyeHeightScale": 1.0,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -36,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "thinking": {
+        "eyeWidthScale": 1.0,
+        "eyeHeightScale": 1.0,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -36,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "curious": {
+        "eyeWidthScale": 0.83,
+        "eyeHeightScale": 0.42,
+        "cornerRadius": 30,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -46,
+        "eyeSpacing": 90,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "sunglasses": {
+        "eyeWidthScale": 1.16,
+        "eyeHeightScale": 0.64,
+        "cornerRadius": 18,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -39,
+        "eyeSpacing": 104,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      },
+      "loading": {
+        "eyeWidthScale": 1.0,
+        "eyeHeightScale": 1.0,
+        "cornerRadius": 24,
+        "eyeOffsetX": 0,
+        "eyeOffsetY": -33,
+        "eyeSpacing": 112,
+        "eyeColor": "#00ff62",
+        "glowEnabled": false,
+        "glowStrength": 3,
+        "scanlinesEnabled": true,
+        "scanlineSpacing": 5,
+        "scanlineAlpha": 20
+      }
+    },
+    "rgb": {
+      "brightness": 60,
+      "breathing": true,
+      "marquee": false,
+      "rainbow": false,
+      "preset": "manual",
+      "color": "#00ff62",
+      "leftColor": "#00ff62",
+      "rightColor": "#00ff62",
+      "standby": {
+        "brightness": 60,
+        "breathing": true,
+        "marquee": false,
+        "rainbow": false,
+        "preset": "manual",
+        "color": "#00ff62",
+        "leftColor": "#00ff62",
+        "rightColor": "#00ff62"
+      }
+    },
+    "clock": {
+      "showDateTimeSubtitle": false,
+      "nightEnabled": true,
+      "nightStartHour": 22,
+      "nightEndHour": 8,
+      "sleepAfterMs": 1800000
+    },
+    "triggers": {
+      "headTouchHappyEnabled": true,
+      "headTouchThreshold": 2,
+      "headTouchComboEnabled": true,
+      "headTouchComboTargetCount": 5,
+      "headTouchComboWindowMs": 10000,
+      "headTouchComboRepeatWindowMs": 5000,
+      "screenTouchAngryEnabled": true,
+      "imuMotionEnabled": true,
+      "angryShakeAccelDeltaG": 0.55,
+      "angryShakeGyroDps": 220.0,
+      "upsideDownGravityDotThreshold": -0.65,
+      "randomEmotionEnabled": false,
+      "randomEmotionMinIntervalMs": 15000,
+      "randomEmotionMaxIntervalMs": 45000
+    },
+    "idle": {
+      "enabled": true
+    },
+    "camera": {
+      "enabled": true,
+      "captureIntervalMs": 12000,
+      "detectTimeoutMs": 1500,
+      "returnSettleMs": 450,
+      "confirmSettleMs": 250,
+      "lockHoldMs": 4500,
+      "cooldownMs": 20000,
+      "centerDeadZoneX": 0.1,
+      "centerDeadZoneY": 0.12,
+      "yawStepMax": 48,
+      "pitchStepMax": 28,
+      "catchphraseAssetId": "halo",
+      "listenAfterCatchphrase": true,
+      "feedbackSubtitleEnabled": false
+    },
+    "mumble": {
+      "enabled": false,
+      "autoEnabled": false,
+      "speedPercent": 100,
+      "apiVoiceVolume": 180,
+      "emotionSoundVolume": 96,
+      "segmentDurationMs": 1800,
+      "fullChancePercent": 18,
+      "format": "raw-u8-16k-mono",
+      "sampleRateRequired": 16000,
+      "maxUploadBytes": 320000
+    },
+    "proximity": {
+      "mode": "debug",
+      "sensorEnabled": true,
+      "threshold": 180
+    },
+    "emotionSoundSlots": [
+      {
+        "name": "comfortableNod",
+        "enabled": true,
+        "hasAudio": false,
+        "uploadedName": ""
+      },
+      {
+        "name": "happy",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:happy.raw"
+      },
+      {
+        "name": "headTouchComboSpin",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:headTouchComboSpin.raw"
+      },
+      {
+        "name": "sad",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:sad.raw"
+      },
+      {
+        "name": "angry",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:angry.raw"
+      },
+      {
+        "name": "surprised",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:surprised.raw"
+      },
+      {
+        "name": "thinking",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:thinking.raw"
+      },
+      {
+        "name": "idleThought",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:idleThought.raw"
+      },
+      {
+        "name": "curious",
+        "enabled": true,
+        "hasAudio": false,
+        "uploadedName": ""
+      },
+      {
+        "name": "shy",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:shy.raw"
+      },
+      {
+        "name": "cute",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:cute.raw"
+      },
+      {
+        "name": "proud",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:proud.raw"
+      },
+      {
+        "name": "confused",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:confused.raw"
+      },
+      {
+        "name": "scared",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:scared.raw"
+      },
+      {
+        "name": "celebrate",
+        "enabled": true,
+        "hasAudio": true,
+        "uploadedName": "builtin:celebrate.raw"
+      }
+    ],
+    "listening": {
+      "voiceWakeEnabled": false,
+      "hostCallbackUrl": "",
+      "listenTimeoutMs": 15000
+    },
+    "voiceNod": {
+      "available": false,
+      "endpoint": "/api/voice-nod/status",
+      "error": "HTTP Error 404: Not Found"
+    },
+    "debugSubtitle": {
+      "listening": false,
+      "apiResult": false
+    },
+    "motionStream": {
+      "enabled": true,
+      "port": 4210,
+      "speed": 300
+    },
+    "screen": {
+      "asset": "none",
+      "mode": "none",
+      "fullscreen": false
+    },
+    "motion": {
+      "restPitch": 120,
+      "restPitchDefault": 120
+    }
+  }
+}

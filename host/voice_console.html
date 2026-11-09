@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voice API Settings</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #101214; color: #eef2f4; }
+    body { margin: 0; padding: 24px; }
+    main { max-width: 1040px; margin: 0 auto; display: grid; gap: 18px; }
+    h1, h2 { margin: 0; letter-spacing: 0; }
+    h1 { font-size: 28px; }
+    h2 { font-size: 18px; }
+    section { border: 1px solid #2c343a; border-radius: 8px; padding: 18px; background: #15191d; }
+    .heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    label { display: grid; gap: 6px; color: #aeb8be; font-size: 13px; }
+    input, select, textarea, button { font: inherit; border-radius: 6px; border: 1px solid #344149; background: #0f1316; color: #eef2f4; }
+    input, select, textarea { padding: 10px; min-width: 0; }
+    textarea { min-height: 110px; resize: vertical; }
+    button { padding: 9px 12px; cursor: pointer; }
+    button.primary { border-color: #3a8fd8; background: #1768a8; }
+    button.subtle { background: #1d2429; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    .metric { display: grid; gap: 4px; padding: 10px; border: 1px solid #283137; border-radius: 6px; background: #101417; }
+    .metric b { color: #91a0a8; font-size: 12px; }
+    .status { color: #8ee2a1; }
+    .warn { color: #f7c96b; }
+    .danger { color: #ff8f8f; }
+    pre { overflow: auto; max-height: 240px; padding: 12px; border-radius: 6px; background: #0a0d0f; border: 1px solid #283137; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>语音 API 配置台</h1>
+    </header>
+
+    <section>
+      <div class="heading">
+        <h2>豆包 Realtime API</h2>
+        <span id="voiceRealtimeConfigState" class="warn">未读取</span>
+      </div>
+      <div class="grid">
+        <label>App ID<input id="voiceRealtimeAppId" placeholder="X-Api-App-ID"></label>
+        <label>Access Token<input id="voiceRealtimeAccessToken" type="password" placeholder="X-Api-Access-Key"></label>
+        <label>WebSocket<input id="voiceRealtimeEndpoint" value="wss://openspeech.bytedance.com/api/v3/realtime/dialogue"></label>
+        <label>模型版本
+          <select id="voiceRealtimeModelVersion">
+            <option value="1.2.1.1">1.2.1.1</option>
+            <option value="1.1.0">1.1.0</option>
+          </select>
+        </label>
+        <label>音色<input id="voiceRealtimeSpeaker" value="zh_male_yunzhou_jupiter_bigtts"></label>
+        <label>接收超时 s<input id="voiceRealtimeRecvTimeout" type="number" min="3" max="60" step="1" value="15"></label>
+        <label>跳过 TLS 校验
+          <select id="voiceRealtimeInsecureTls">
+            <option value="0">关</option>
+            <option value="1">开</option>
+          </select>
+        </label>
+      </div>
+      <label style="margin-top:12px">实时语音系统提示词<textarea id="voiceRealtimeFirmwareNotes"></textarea></label>
+      <div class="actions" style="margin-top:14px">
+        <button class="subtle" onclick="loadVoiceModelConfig()">读取 API 配置</button>
+        <button class="primary" onclick="saveVoiceModelConfig()">保存 API 配置</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="heading">
+        <h2>机器人状态</h2>
+        <button class="subtle" onclick="refreshRobot()">刷新</button>
+      </div>
+      <div class="metrics">
+        <div class="metric"><b>机器人</b><span id="robotBaseUrl">-</span></div>
+        <div class="metric"><b>连接</b><span id="robotState" class="warn">未刷新</span></div>
+        <div class="metric"><b>硬件</b><span id="hardwareReady">-</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="heading">
+        <h2>日志</h2>
+        <button class="subtle" onclick="clearLog()">清空</button>
+      </div>
+      <pre id="log">{}</pre>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const truthyFlag = value => value === true || value === 1 || value === '1' || value === 'true' || value === 'on';
+    const setVal = (id, value) => { const el = $(id); if (el) el.value = value ?? ''; };
+    const setBool = (id, value) => setVal(id, value ? '1' : '0');
+    const bool = id => $(id)?.value === '1';
+
+    async function api(path, payload) {
+      const options = payload === undefined ? {} : {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      };
+      const response = await fetch(path, options);
+      const data = await response.json().catch(() => ({ok: false, error: response.statusText}));
+      if (!response.ok) throw new Error(data.error || response.statusText);
+      return data;
+    }
+
+    function writeLog(payload) {
+      $('log').textContent = JSON.stringify(payload, null, 2);
+    }
+
+    function clearLog() {
+      writeLog({});
+    }
+
+    function currentModelConfig() {
+      return {
+        realtimeAppId: $('voiceRealtimeAppId').value.trim(),
+        realtimeAccessToken: $('voiceRealtimeAccessToken').value.trim(),
+        realtimeEndpoint: $('voiceRealtimeEndpoint').value.trim(),
+        realtimeModelVersion: $('voiceRealtimeModelVersion').value,
+        realtimeSpeaker: $('voiceRealtimeSpeaker').value.trim(),
+        realtimeRecvTimeout: $('voiceRealtimeRecvTimeout').value,
+        realtimeInsecureTls: $('voiceRealtimeInsecureTls').value,
+        realtimeFirmwareNotes: $('voiceRealtimeFirmwareNotes').value
+      };
+    }
+
+    function syncModelConfig(payload) {
+      const config = payload?.config || {};
+      if (config.realtimeAppId !== undefined) setVal('voiceRealtimeAppId', config.realtimeAppId);
+      if (config.realtimeAccessToken !== undefined) setVal('voiceRealtimeAccessToken', config.realtimeAccessToken);
+      else if (config.realtimeAccessKey !== undefined) setVal('voiceRealtimeAccessToken', config.realtimeAccessKey);
+      if (config.realtimeEndpoint !== undefined) setVal('voiceRealtimeEndpoint', config.realtimeEndpoint);
+      if (config.realtimeModelVersion !== undefined) setVal('voiceRealtimeModelVersion', config.realtimeModelVersion);
+      if (config.realtimeSpeaker !== undefined) setVal('voiceRealtimeSpeaker', config.realtimeSpeaker);
+      if (config.realtimeRecvTimeout !== undefined) setVal('voiceRealtimeRecvTimeout', config.realtimeRecvTimeout);
+      if (config.realtimeInsecureTls !== undefined) setBool('voiceRealtimeInsecureTls', truthyFlag(config.realtimeInsecureTls));
+      if (config.realtimeFirmwareNotes !== undefined) setVal('voiceRealtimeFirmwareNotes', config.realtimeFirmwareNotes);
+      $('voiceRealtimeConfigState').textContent = payload?.saved ? '已保存到电脑端' : '未保存';
+      $('voiceRealtimeConfigState').className = payload?.saved ? 'status' : 'warn';
+    }
+
+    async function loadVoiceModelConfig() {
+      try {
+        const result = await api('/api/host/model-config/status');
+        syncModelConfig(result);
+        writeLog(result);
+      } catch (err) {
+        $('voiceRealtimeConfigState').textContent = '读取失败';
+        $('voiceRealtimeConfigState').className = 'danger';
+        writeLog({ok: false, error: err.message});
+      }
+    }
+
+    async function saveVoiceModelConfig() {
+      try {
+        const result = await api('/api/host/model-config/save', currentModelConfig());
+        syncModelConfig(result);
+        writeLog(result);
+      } catch (err) {
+        $('voiceRealtimeConfigState').textContent = '保存失败';
+        $('voiceRealtimeConfigState').className = 'danger';
+        writeLog({ok: false, error: err.message});
+      }
+    }
+
+    async function refreshRobot() {
+      try {
+        const config = await api('/api/config');
+        $('robotBaseUrl').textContent = config.robotBaseUrl || '-';
+        const status = await api('/api/robot/status');
+        $('robotState').textContent = '已连接';
+        $('robotState').className = 'status';
+        $('hardwareReady').textContent = status.hardwareReady || status.hardware?.ready ? 'ready' : JSON.stringify(status.hardware || status.ok);
+        writeLog(status);
+      } catch (err) {
+        $('robotState').textContent = err.message;
+        $('robotState').className = 'danger';
+        writeLog({ok: false, error: err.message});
+      }
+    }
+
+    loadVoiceModelConfig();
+    refreshRobot();
+  </script>
+</body>
+</html>
